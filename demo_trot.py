@@ -19,6 +19,8 @@ Only numpy is used; the SVG is written by hand.
 
 import numpy as np
 
+from pathlib import Path
+
 from quadruped.controller import KinematicSimulator, TrotController
 from quadruped.gait import CRAWL_OFFSETS, TROT_OFFSETS, Gait
 from quadruped.kinematics import LEG_NAMES, QuadrupedModel
@@ -322,11 +324,14 @@ def main():
         raise SystemExit("panel overflows the canvas: %s (canvas %s)"
                          % (layout["overflow"], layout["size"]))
     lowest = max(y + h for _, y, _, h in layout["rects"])
-    name = "demo_trot.svg"
-    with open(name, "w", encoding="utf-8") as fh:
-        fh.write(payload)
+    # output is anchored next to this script and containment-verified
+    demo_dir = Path(__file__).resolve().parent
+    out_path = (demo_dir / "demo_trot.svg").resolve()
+    if out_path.parent != demo_dir:
+        raise SystemExit("refusing to write outside the demo directory")
+    out_path.write_text(payload, encoding="utf-8")
     print("wrote %s   canvas %dx%d, %d panels, lowest panel edge y=%.0f"
-          % (name, layout["size"][0], layout["size"][1],
+          % (out_path.name, layout["size"][0], layout["size"][1],
              len(layout["rects"]), lowest))
 
 
