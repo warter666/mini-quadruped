@@ -1,5 +1,7 @@
 # 04-robotics — 纯 numpy 的四足步态控制器与接触约束仿真
 
+[![CI](https://github.com/warter666/mini-quadruped/actions/workflows/ci.yml/badge.svg)](https://github.com/warter666/mini-quadruped/actions/workflows/ci.yml)
+
 参照 MIT Cheetah / `unitree_legged_sdk` 一类四足堆栈的设计，不依赖 MuJoCo、Drake
 或任何物理引擎，全部 numpy 实现。核心是一个**运动学仿真器**而不是动力学仿真器：
 机身怎么动，完全由「落地的脚不打滑」这一条约束解出来。
